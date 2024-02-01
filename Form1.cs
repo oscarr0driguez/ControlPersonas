@@ -48,8 +48,8 @@ namespace ControlPersonas
             LblNom.Text = persona.Nombre;
             LblApe.Text = persona.Apellido;
             LblFe.Text = persona.FechaNacimiento.ToShortDateString();
-            LblEdad.Text = persona.edad().ToString();
-            persona.normalizaNombre();
+            LblEdad.Text = persona.edad().ToString() + "años";
+           
 
             LblDpi.Visible = true;
             LblNom.Visible = true;

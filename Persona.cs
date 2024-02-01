@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ControlPersonas
@@ -47,17 +48,21 @@ namespace ControlPersonas
         {
             if(nombre.Length > 0)
             {
+                nombre = Regex.Replace(nombre, @"[^a-zA-Z]", "");
                 StringBuilder nombreMayus = new StringBuilder(nombre);
                 nombreMayus[0] = char.ToUpper(nombreMayus [0]);
                 nombre = nombreMayus.ToString();
+                
                
             }
 
             if(apellido.Length > 0)
             {
+                apellido = Regex.Replace(apellido, @"[^a-zA-Z]", "");
                 StringBuilder apellidoMayus = new StringBuilder(apellido);
                 apellidoMayus[0] = char.ToUpper(apellidoMayus[0]);
                 apellido = apellidoMayus.ToString();
+                
             }
             
         }
@@ -75,7 +80,11 @@ namespace ControlPersonas
             int añoAct = DateTime.Now.Year;
             int diaAct = DateTime.Now.Day;
 
-            if((diaAct >= diaNacimiento) && (mesAct >= mesNacimento))
+            if(mesAct > mesNacimento)
+            {
+                edad = (añoAct - añoNacimiento);
+            }
+            else if ((mesAct >= mesNacimento) && (diaAct >= diaNacimiento))
             {
                 edad = añoAct - añoNacimiento;
             }
@@ -87,28 +96,7 @@ namespace ControlPersonas
             return edad;
         }
 
-        public void NormalizarNombre()
-        {
-            // Eliminar espacios en blanco al inicio y al final
-            nombre = nombre.Trim();
-            apellido = apellido.Trim();
 
-            // Eliminar símbolos que no sean letras al inicio y al final del nombre
-            nombre = new string(nombre.Where(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)).ToArray());
-            apellido = new string(apellido.Where(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)).ToArray());
-
-            // Dejar el nombre con formato propio (primera letra mayúscula en cada nombre y apellido)
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
-
-            nombre = textInfo.ToTitleCase(nombre);
-            apellido = textInfo.ToTitleCase(apellido);
-        }
-
-        public void normalizaNombre()
-        {
-
-        }
 
     }
 }
